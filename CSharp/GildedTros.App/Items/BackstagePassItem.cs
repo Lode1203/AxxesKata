@@ -38,6 +38,10 @@ namespace GildedTros.App.Items
             if (SellIn > 0)
             {
                 SellIn--;
+                if (SellIn == 0)
+                {
+                    Quality = 0;
+                }
             }
         }
 
@@ -45,7 +49,6 @@ namespace GildedTros.App.Items
         {
             if (SellIn <= 0)
             {
-                Quality = 0;
                 return true;
             }
             return false;

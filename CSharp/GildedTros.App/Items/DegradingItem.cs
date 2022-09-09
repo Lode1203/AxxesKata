@@ -11,12 +11,16 @@ namespace GildedTros.App.Items
         private const int MaxQuality = 50;
         protected int qualityDegradationRate;
 
-        public DegradingItem(string name, int sellIn, int quality)
+        public DegradingItem(string name, int sellIn, int quality, int qualityDegradationRate)
         {
             Name = name;
             SellIn = sellIn < 0 ? 0 : sellIn;
             Quality = Math.Clamp(quality, 0, MaxQuality);
-            qualityDegradationRate = 1;
+            this.qualityDegradationRate = Math.Clamp(qualityDegradationRate, 0, int.MaxValue);
+            if (SellIn == 0)
+            {
+                this.qualityDegradationRate *= 2;
+            }
         }
 
         public void UpdateQuality()
@@ -34,7 +38,7 @@ namespace GildedTros.App.Items
 
                 if (SellIn == 0)
                 {
-                    qualityDegradationRate = 2;
+                    qualityDegradationRate *= 2;
                 }
             }
         }

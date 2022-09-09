@@ -23,6 +23,13 @@ namespace GildedTros.App.Items
             "Good Wine"
         };
 
+        private static readonly HashSet<string> smellyItems = new HashSet<string>
+        {
+            "Duplicate Code",
+            "Long Methods",
+            "Ugly Variable Names"
+        };
+
         public static Item CreateItem(string name, int sellIn, int quality)
         {
             if (name.Contains(backstagePassTag))
@@ -37,9 +44,13 @@ namespace GildedTros.App.Items
             {
                 return new AppreciatingItem(name, sellIn, quality);
             }
+            else if (smellyItems.Contains(name))
+            {
+                return new DegradingItem(name, sellIn, quality, 2);
+            }
             else
             {
-                return new DegradingItem(name, sellIn, quality);
+                return new DegradingItem(name, sellIn, quality, 1);
             }
         }
     }
