@@ -6,7 +6,7 @@ namespace GildedTros.App
     public class GildedTrosTest
     {
         [Fact]
-        public void SingleItemTest()
+        public void SingleDegradingItemTest()
         {
             IList<Item> Items = new List<Item> { new Item { Name = "foo", SellIn = 0, Quality = 0 } };
             GildedTros app = new GildedTros(Items);

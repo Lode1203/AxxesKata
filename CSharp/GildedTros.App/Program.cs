@@ -1,42 +1,60 @@
-﻿using System;
+﻿using GildedTros.App.Items;
+using System;
 using System.Collections.Generic;
 
 namespace GildedTros.App
 {
     internal class Program
     {
+        private const int NumberOfDaysToUpdate = 30;
+
         public static void Main(string[] args)
         {
             Console.WriteLine("OMGHAI!");
 
-            IList<Item> Items = new List<Item>{
-                new Item {Name = "Ring of Cleansening Code", SellIn = 10, Quality = 20},
-                new Item {Name = "Good Wine", SellIn = 2, Quality = 0},
-                new Item {Name = "Elixir of the SOLID", SellIn = 5, Quality = 7},
-                new Item {Name = "B-DAWG Keychain", SellIn = 0, Quality = 80},
-                new Item {Name = "B-DAWG Keychain", SellIn = -1, Quality = 80},
-                new Item {Name = "Backstage passes for Re:factor", SellIn = 15, Quality = 20},
-                new Item {Name = "Backstage passes for Re:factor", SellIn = 10, Quality = 49},
-                new Item {Name = "Backstage passes for HAXX", SellIn = 5, Quality = 49},
+            IList<Item> items = CreateItems();
+            UpdateItemsForNumberOfDays(NumberOfDaysToUpdate, items);
+        }
+
+        private static IList<Item> CreateItems()
+        {
+            return new List<Item>{
+                ItemFactory.CreateItem("Ring of Cleansening Code", 10, 20),
+                ItemFactory.CreateItem("Good Wine", 2, 0),
+                ItemFactory.CreateItem("Elixir of the SOLID", 5, 7),
+                ItemFactory.CreateItem("B-DAWG Keychain", 0, 80),
+                ItemFactory.CreateItem("B-DAWG Keychain", -1, 80),
+                ItemFactory.CreateItem("Backstage passes for Re:factor", 15, 20),
+                ItemFactory.CreateItem("Backstage passes for Re:factor", 10, 49),
+                ItemFactory.CreateItem("Backstage passes for HAXX", 5, 49),
                 // these smelly items do not work properly yet
-                new Item {Name = "Duplicate Code", SellIn = 3, Quality = 6},
-                new Item {Name = "Long Methods", SellIn = 3, Quality = 6},
-                new Item {Name = "Ugly Variable Names", SellIn = 3, Quality = 6}
+                ItemFactory.CreateItem("Duplicate Code", 3, 6),
+                ItemFactory.CreateItem("Long Methods", 3, 6),
+                ItemFactory.CreateItem("Ugly Variable Names", 3, 6)
             };
+        }
 
-            var app = new GildedTros(Items);
-
-            for (var i = 0; i < 31; i++)
+        private static void UpdateItemsForNumberOfDays(int numberOfDays, IList<Item> items)
+        {
+            var app = new GildedTros(items);
+            for (var i = 0; i <= numberOfDays; i++)
             {
-                Console.WriteLine("-------- day " + i + " --------");
-                Console.WriteLine("name, sellIn, quality");
-                for (var j = 0; j < Items.Count; j++)
-                {
-                    System.Console.WriteLine(Items[j].Name + ", " + Items[j].SellIn + ", " + Items[j].Quality);
-                }
-                Console.WriteLine("");
+                DisplayItemsForCurrentDay(i, items);
                 app.UpdateQuality();
             }
+        }
+
+        private static void DisplayItemsForCurrentDay(int day, IList<Item> items)
+        {
+            Console.WriteLine("-------- day " + day + " --------");
+            Console.WriteLine("name, sellIn, quality");
+
+            foreach (var item in items)
+            {
+                item.WriteItemPropertyValues();
+            }
+
+            Console.WriteLine(string.Empty);
         }
     }
 }

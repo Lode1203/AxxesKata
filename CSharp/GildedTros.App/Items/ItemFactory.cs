@@ -11,19 +11,36 @@ namespace GildedTros.App.Items
     /// </summary>
     public static class ItemFactory
     {
-        public static Item CreateAppreciatingItem(string name, uint sellIn, uint quality, uint appreciationRate)
-        {
-            return null;
-        }
+        private const string backstagePassTag = "Backstage passes";
 
-        public static Item CreateDegradingItem(string name, uint sellIn, uint quality, uint degradationRate)
+        private static readonly HashSet<string> legendaryItems = new HashSet<string>
         {
-            return null;
-        }
+            "B-DAWG Keychain"
+        };
 
-        public static Item CreateLegendaryItem(string name, uint sellIn, uint quality)
+        private static readonly HashSet<string> appreciatingItems = new HashSet<string>
         {
-            return null;
+            "Good Wine"
+        };
+
+        public static Item CreateItem(string name, int sellIn, int quality)
+        {
+            if (name.Contains(backstagePassTag))
+            {
+                return new BackstagePassItem(name, sellIn, quality);
+            }
+            else if (legendaryItems.Contains(name))
+            {
+                return new LegendaryItem(name);
+            }
+            else if (appreciatingItems.Contains(name))
+            {
+                return new AppreciatingItem(name, sellIn, quality);
+            }
+            else
+            {
+                return new DegradingItem(name, sellIn, quality);
+            }
         }
     }
 }
